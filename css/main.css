@@ -1,0 +1,310 @@
+/* Comment to prevent wrong concat */
+
+body {
+  background: #3f3f3c;
+  font: 13px/120% 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {background: #000; color: #fff; /* Safari */}
+::-moz-selection {background: #000; color: #fff; /* Firefox */}
+
+html, body {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background: #444;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #444;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #666;
+}
+
+::-webkit-scrollbar-corner {
+  background: #444;
+}
+
+#browser-not-supported {
+        font-size: 0.8em;
+        font-family: Verdana, Helvetica, Arial;
+        color: #000000;
+}
+
+
+label {
+  display: block;
+  color: #999;
+}
+
+#backgroundImageBox{
+	display: none;
+}
+/* div#showbox#showmenu{ */
+	/* border: 1px solid #ccc;  */
+	/* width: 200px;  */
+	/* height: 20px; */
+	/* display: -moz-box; */
+	/* display: -webkit-box; */
+	/* -moz-box-align: center; */
+	/* -webkit-box-align: center; */
+	/* -moz-box-pack: center; */
+	/* -webkit-box-pack: center; */
+	/* resize:both; */
+	/* overflow:auto; */
+/* } */
+/* div[id^=showbox]:hover{ */
+	/* border: 1px solid #333;  */
+/* } */
+
+
+div#pseditor{
+	background: #2f2f2c;
+  --list_top_height:30px;
+  --list_left_width:60px;
+  --list_bot_height:0px;
+  --list_right_width:165px;
+  --show_menu_height:20px;
+  --win_dowW:100px;
+  --win_dowH:100px;
+  --padding_all:10px;
+}
+
+div#workarea {
+
+	display: inline-table-cell;
+	position:absolute;
+	/* width:-moz-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2)); */
+	/* height:-moz-calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height)); */
+	/* width:-webkit-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2)); */
+	/* height:-webkit-calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height)); */
+	width:calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2));
+	height:calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height));
+	
+	margin: 0 auto;
+	padding: var(--padding_all);
+
+	top: var(--list_top_height);
+	left: var(--list_left_width);
+	/* bottom: -moz-calc(var(--list_bot_height) + var(--show_menu_width)); */
+	/* bottom: -webkit-calc(var(--list_bot_height) + var(--show_menu_width)); */
+	bottom: calc(var(--list_bot_height) + var(--show_menu_width));
+	right: var(--list_right_width);
+	background-color: #3F3F3C;
+	overflow: auto;
+	text-align: center;
+	vertical-align: middle;
+	-webkit-transition: -webkit-transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
+	-moz-transition: -moz-transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
+	-o-transition: -o-transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
+	-ms-transition: -ms-transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
+	transition: transform 500ms cubic-bezier(0.13,0.66,0.24,0.92);
+}
+.touch  div#workarea {
+  /* top: 40px; */
+}
+/* #workarea.n-resize * {cursor: n-resize !important;} */
+/* #workarea.e-resize * {cursor: e-resize !important;} */
+/* #workarea.w-resize * {cursor: w-resize !important;} */
+/* #workarea.s-resize * {cursor: s-resize !important;} */
+
+/* #workarea.ne-resize * {cursor: ne-resize !important;} */
+/* #workarea.se-resize * {cursor: se-resize !important;} */
+/* #workarea.nw-resize * {cursor: nw-resize !important;} */
+/* #workarea.sw-resize * {cursor: sw-resize !important;} */
+
+/* #workarea.copy { */
+  /* cursor: copy; */
+/* } */
+
+/* #workarea.zoom { */
+  /* cursor: crosshair; */
+  /* cursor:-moz-zoom-in; */
+  /* cursor:-webkit-zoom-in; */
+/* } */
+/* #workarea.zoom.out { */
+  /* cursor: crosshair; */
+  /* cursor:-moz-zoom-out; */
+  /* cursor:-webkit-zoom-out; */
+/* } */
+
+
+
+#menu_bar {
+  padding: 0 0 0 50px;
+  background: #2f2f2c;
+  position: relative;
+  z-index: 10;
+}
+
+
+
+#list_left{
+	position: absolute;
+	/*border-right: none;*/
+	/* width: 150px; */
+	top: var(--list_top_height);
+	bottom: 0;
+	left: 0;
+	background: #2F2F2C; /* Needed so flyout icons don't appear on the left */
+	z-index: 4;
+	width:auto !important;
+	height:auto !important;
+	min-width:60px;
+	max-width:150px;
+	max-height:100%;
+	overflow:scroll;
+	/*overflow-x:hidden;*/
+}
+
+/*#list_left ul{
+  	margin:5px;
+}*/
+#list_left ul,li {
+	padding:0; 
+	list-style:none;
+}
+#list_left ul {
+	width:auto !important;
+	margin-left:10px; 
+}
+#list_left li {
+	width:auto !important;
+	height:auto !important;
+	/* display:inline; */
+}
+ul li img{
+	width:32px;
+	height:32px;
+	display: inline-block;
+	vertical-align: middle;
+	 margin-left:10px; 
+}
+ul li span{
+	display: inline-block;
+	vertical-align: middle;
+	
+	color: rgba(255,255,255, 1);
+	font-size: 10px;
+	line-height: 120%;
+  margin-right:20px;
+}
+
+
+/* #zoom_label { */
+  /* height: 20px; */
+  /* background: transparent; */
+  /* cursor: default !important; */
+  /* width: auto; */
+  /* padding: 0 10px; */
+  /* margin: 0; */
+/* } */
+
+/* #zoom_panel { */
+  /* padding: 9px 0; */
+  /* right: 175px; */
+  /* position: absolute; */
+/* } */
+
+
+
+ #container{
+	/*line-height: normal;*/
+	/* display: inline-block; */
+	background-color: #A0A0A0;
+	/*text-align: center;*/
+	/*vertical-align: middle;*/
+	/* min-width: 512px; */
+	/* min-height: 512px; */
+	/* width:-moz-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2)); */
+	/* height:-moz-calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height)); */
+	/* width:-webkit-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2)); */
+	/* height:-webkit-calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height)); */
+	width:calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width) - var(--padding_all) * 2);
+	height:calc(var(--win_dowH) - var(--list_top_height) - var(--list_bot_height) - var(--padding_all) * 2 - var(--show_menu_height));
+	position: relative;
+	background: #2f2f2c;
+	overflow: auto;
+}
+
+ #pscanvas{
+  /*margin: 10px;*/
+   /*line-height: normal; */
+   /*display: inline-block; */
+  background-color: #A0A0A0;
+   /*text-align: center; */
+  /*vertical-align: middle;*/
+  /*width: 512px;
+  height: 512px;*/
+   /*margin:0 auto; */
+   /*padding: 10 auto; */
+  /*border:1px solid black;*/
+  transform-origin: 50% 50%;
+}
+
+#list_right{
+  position: absolute;
+  width: var(--list_right_width);
+  height: 100%;
+  background: #2f2f2c;
+  z-index: 4;
+  right: 0px;
+  top: var(--list_top_height);
+  border-left: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 0 0 0;
+  /*max-height:100%;*/
+  /*height:auto !important;*/
+}
+
+#list_bot{
+  position: absolute;
+  
+  /* width: -moz-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width)); */
+  /* width: -webkit-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width)); */
+  width: calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width));
+  	/*width:auto !important;*/
+  height: var(--list_bot_height);
+  background: #ffff00;
+  z-index: 5;
+  left: var(--list_left_width);
+  right: var(--list_right_width);
+  bottom: 0px;
+  border-bottom: none;
+  overflow: visible;
+  padding: 0 0 0 0;
+}
+
+#showmenu{
+  position: absolute;
+  /* width: -moz-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width)); */
+  /* width: -webkit-calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width)); */
+  width: calc(var(--win_dowW) - var(--list_left_width) - var(--list_right_width));
+  height: var(--show_menu_height);
+  background: #2f2f2c;
+  left: var(--list_left_width);
+  right: var(--list_right_width);
+  bottom: var(--list_bot_height);
+  z-index: 6;
+  border-bottom: none;
+  overflow: visible;
+  padding: 0 0 0 0;
+}
