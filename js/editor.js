@@ -83,6 +83,7 @@ Editor.init = function(){
 	// })
 
 	window.onresize = function(){
+		Editor.resetWindowSize()
 		Editor.resetContainer()
 	};
 	
@@ -242,7 +243,7 @@ Editor.savePng = function(content, idx){
 	let str = Editor.getPlistStr()
 	
 	
-	let imgData = getImagePortionBase64(bufferCanvasX, 0, 0,canvas.width,canvas.height, 1)
+	let imgData = getImagePortionBase64(bufferCanvas, 0, 0,canvas.width,canvas.height, 1)
 	
 	zip.file(`${targetFile.name}.plist`, str);	// plist
 	zip.file(`${targetFile.name}.png`, imgData, {base64: true});	// source图片
