@@ -242,8 +242,9 @@ Editor.savePng = function(content, idx){
 	let zip = new JSZip();
 	let str = Editor.getPlistStr()
 	
-	
-	let imgData = getImagePortionBase64(bufferCanvas, 0, 0,canvas.width,canvas.height, 1)
+	let padding = Number(picPaddingPxBox.value)
+	let sourceCanvas = padding == 0 ? backgroundImageBox : bufferCanvasX
+	let imgData = getImagePortionBase64(sourceCanvas, 0, 0,sourceCanvas.width,sourceCanvas.width, 1)
 	
 	zip.file(`${targetFile.name}.plist`, str);	// plist
 	zip.file(`${targetFile.name}.png`, imgData, {base64: true});	// source图片

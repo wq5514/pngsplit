@@ -386,6 +386,9 @@ function changeSourceImage(){
 	bufferCanvasX = bufferCanvasX || document.createElement('canvas');
 	var bufferContext = bufferCanvasX.getContext('2d');
 	
+	console.log("xxx")
+	console.log(canvas.width)
+	console.log("xxx2")
 	bufferCanvasX.width = canvas.width
 	bufferCanvasX.height = canvas.height
 	// bufferContext.save()
