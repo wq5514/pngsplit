@@ -15,6 +15,8 @@ var dltSpriteAnimIndex = 1;
 var fps = 6
 var fpsInterval = 1000 / fps
 var lastFrameTime = new Date().getTime()
+var leftListRefreshTime = 0;
+var leftListHasChange = false;
 
 Editor.init = function(){
 	let container = document.getElementById("container")
@@ -124,9 +126,13 @@ Editor.loopFunc = function(){
     var dltTime = curTime - lastFrameTime;
     // 经过了足够的时间
     if (dltTime > fpsInterval) {
+		leftListRefreshTime ++;
         lastFrameTime = curTime - (dltTime % fpsInterval); //校正当前时间
         // 循环的代码
         Editor.drawSpriteBatchAnim()
+		if(leftListRefreshTime > 5 && leftListHasChange){
+			Editor.showImageList()
+		}
 	}
 }
 
@@ -362,11 +368,16 @@ Editor.drawSpriteBatchAnim = function(){
 	}
 }
 
+Editor.shouldRefreshLeftList = function(){
+	leftListRefreshTime = 0;
+	leftListHasChange = true;
+}
 
 Editor.showImageList = function (){
 	if(!hasImage){
 		return
 	}
+	leftListRefreshTime = 0;
 	let fileList = document.getElementById("list_left")
 	fileList.innerHTML = "";
 	

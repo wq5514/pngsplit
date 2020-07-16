@@ -36,6 +36,7 @@ var bufferCanvasX;
 var eraseAllButton,
 	axesCheckBox,
 	gridCheckBox,
+	gridFrontCheckBox,
 	guideWiresCheckBox,
 	strokeColorSelectBox,
 	lineTypeSelectBox,
@@ -205,8 +206,10 @@ function drawDashedLine(context,x1,y1,x2,y2,dashLength){
 //Function---------------------------------------------------
 //绘制坐标轴
 //传入参数为：绘图环境,坐标轴边距
-function drawBatchRect(context, width, height, strokeCol, fillCol){
-	drawRect(context,0,0,width, height)
+function drawBatchRect(context, width, height){
+	let strokeCol = 'rgba(255,0,0, 1)';
+	let fillCol = 'rgba(255,0,0, 0.1)';
+	drawRect(context,0,0,width,height,strokeCol, fillCol);
 };
 
 function drawSelectRect(context, x, y, width, height){
@@ -414,6 +417,7 @@ function initialization(){
 	let dw = 40,dh = 40
 	let show = hasImage ? "inline" : "none"
 	let padding = Number(picPaddingPxBox.value)
+	let drawGridFront = gridFrontCheckBox.checked
 	if(hasImage){
 		let w = backgroundImageBox.width
 		let h = backgroundImageBox.height
@@ -434,14 +438,14 @@ function initialization(){
 		picSlicePerHeightPxBox.value = dh;
 		
 		//绘制网格与坐标的颜色是默认的
-		if(axesCheckBox.checked){
+		if(axesCheckBox.checked && !drawGridFront){
 			let bw = picSlicePerWidthBatchBox.value * (dw + padding)
 			let bh = picSlicePerHeightBatchBox.value * (dh + padding)
 		   // drawAxes(context, dw, dh);
 		   drawBatchRect(context, bw, bh)
 		}
 	}
-	if(gridCheckBox.checked){
+	if(gridCheckBox.checked && !drawGridFront){
 	   drawGrid(context,dw+padding,dh+padding);
 	}
 	if(hasImage){
@@ -458,15 +462,27 @@ function initialization(){
 			}
 			context.drawImage(bufferCanvasX, 0, 0, canvas.width, canvas.height)
 		}
-
-
-	}else{
-		context.font="20px Georgia";
-		context.fillText("请把文件拖到网格里!",canvas.width*0.5-100,canvas.height*0.5);
+		//绘制网格与坐标的颜色是默认的
+		if(axesCheckBox.checked && drawGridFront){
+			let bw = picSlicePerWidthBatchBox.value * (dw + padding)
+			let bh = picSlicePerHeightBatchBox.value * (dh + padding)
+		   // drawAxes(context, dw, dh);
+		   drawBatchRect(context, bw, bh)
+		}
+	}
+	if(gridCheckBox.checked && drawGridFront){
+	   drawGrid(context,dw+padding,dh+padding);
+	}
+	if(!hasImage){
+		let textStr = "请把文件拖到网格里!"
+		context.fillStyle = 'rgba(255,255,255,1)';
+        context.strokeStyle = '#0A84B9';
+		context.font="30px Georgia";
 		context.textAlign='center';//文本程度对齐方法
 		context.textBaseline='middle';//文本垂曲标的目的，基线位置
+		context.fillText(textStr, canvas.width/2, canvas.height/2);
+		context.strokeText(textStr, canvas.width/2, canvas.height/2);
 	}
-
 	Editor.setCanvasRate(g_canvasScaleRate)
 }
 
@@ -500,6 +516,7 @@ function initCanvas(){
 	axesCheckBox = document.getElementById("axesCheckBox");
 	//网格线的控制
 	gridCheckBox = document.getElementById("gridCheckBox");
+	gridFrontCheckBox = document.getElementById("gridFrontCheckBox");
 	//辅助线的控制
 	guideWiresCheckBox = document.getElementById("guideWiresCheckBox"); 
 	//线条颜色的控制
@@ -656,6 +673,9 @@ function initCanvas(){
 	gridCheckBox.onchange = function(e){
 		initialization();
 	}
+	gridFrontCheckBox.onchange = function(e){
+		initialization();
+	}
 	gridCheckBox.onchange = function(e){
 		shouldPlayBack = !shouldPlayBack;
 	}
@@ -663,12 +683,12 @@ function initCanvas(){
 	picSlicePerWidthBox.onchange = function(e){
 		picSlicePerWidthBatchBox.value = picSlicePerWidthBox.value
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	}
 	picSlicePerHeightBox.onchange = function(e){
 		picSlicePerHeightBatchBox.value = picSlicePerHeightBox.value
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	}
 	addMouseWheelEvent(picSlicePerWidthBox, function(e){
 		let val = picSlicePerWidthBox.value
@@ -680,7 +700,7 @@ function initCanvas(){
 		}
 		picSlicePerWidthBox.value = Math.clamp(val, 1, valMax)
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	})
 	addMouseWheelEvent(picSlicePerHeightBox, function(e){
 		let val = picSlicePerHeightBox.value
@@ -692,7 +712,7 @@ function initCanvas(){
 		}
 		picSlicePerHeightBox.value = Math.clamp(val, 1, valMax)
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	})
 	
 	picSlicePerWidthBatchBox.onchange = function(e){
@@ -713,7 +733,7 @@ function initCanvas(){
 		}
 		picSlicePerWidthBatchBox.value = Math.clamp(val, 1, valMax)
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	})
 
 	addMouseWheelEvent(picSlicePerHeightBatchBox, function(e){
@@ -726,7 +746,7 @@ function initCanvas(){
 		}
 		picSlicePerHeightBatchBox.value = Math.clamp(val, 1, valMax)
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 	})
 	
 	picPaddingPxBox.onchange = function(e){
@@ -751,10 +771,13 @@ function initCanvas(){
 	}
 	
 	backgroundImageBox.onload = function(){
+		picSlicePerWidthBox.value = Math.floor(backgroundImageBox.width/picSlicePerWidthPxBox.value)
+		picSlicePerHeightBox.value = Math.floor(backgroundImageBox.height/picSlicePerHeightPxBox.value)
+		
 		hasImage = true;
 		selectPicInfo.hasSelected = false;
 		initialization();
-		Editor.showImageList();
+		Editor.shouldRefreshLeftList();
 		Editor.setCanvasRate(g_canvasScaleRate);
 	}
 	backgroundImageBox.onerror = function(e){
