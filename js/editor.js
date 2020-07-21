@@ -17,6 +17,7 @@ var fpsInterval = 1000 / fps
 var lastFrameTime = new Date().getTime()
 var leftListRefreshTime = 0;
 var leftListHasChange = false;
+var listBase64 = [];
 
 Editor.init = function(){
 	let container = document.getElementById("container")
@@ -269,13 +270,19 @@ Editor.savePng = function(content, idx){
 	let dh = h/ny;
 	
 	let imax = nx*ny
+	let folderList = []
 	for(let i=1;i<=imax;i++){
 		let idxData = getPosByIndex(i, dw, dh, nx, ny, bx, by, cx, cy)
 		let px = idxData.px
 		let py = idxData.py
 		let imgData = getImagePortionBase64(backgroundImageBox, px, py, dw, dh,1)
 		let fileName = `${targetFile.name}_${idxData.fileBigIndexStr}_${idxData.fileSmallIndexStr}.png`
-		img.file(fileName, imgData, {base64: true});
+		
+		let bigFolderName = `${targetFile.name}_${idxData.fileBigIndexStr}`
+		if(!folderList[bigFolderName]){
+			folderList[bigFolderName] = img.folder(bigFolderName);
+		}
+		folderList[bigFolderName].file(fileName, imgData, {base64: true});
 	}
 	
 	zip.generateAsync({type:"blob"}).then(function(content) {
@@ -377,6 +384,7 @@ Editor.showImageList = function (){
 	if(!hasImage){
 		return
 	}
+	leftListHasChange = false;
 	leftListRefreshTime = 0;
 	let fileList = document.getElementById("list_left")
 	fileList.innerHTML = "";
@@ -401,7 +409,7 @@ Editor.showImageList = function (){
 	let bli;
 	let bul;
 	listSprite = []
-
+	listBase64 = []
 	for(let i=1;i<=imax;i++){
 		let idxData = getPosByIndex(i, dw, dh, nx, ny, bx, by, cx, cy)
 		let px = idxData.px
